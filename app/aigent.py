@@ -2,6 +2,7 @@ from flask import Flask, request
 import requests
 import nltk
 from textblob import TextBlob
+import json
 
 API_URL = 'https://api.aigent.co'
 TEST_URL = 'http://localhost:5000'
@@ -17,6 +18,8 @@ def home():
 def post_to_api(data_type, recording_filename='', payload_array=[]):
     endpoint_url =  API_URL + f"/assessments/nouns-and-verbs/{data_type}/{recording_filename}/team2"
     print(endpoint_url)
+
+    print(payload_array)
     r = requests.post(TEST_URL, data={'payload': payload_array})
     print(r.status_code, r.reason)
 
@@ -27,14 +30,8 @@ def assess():
 
 # process nouns/verbs
 @app.route('/tag', methods = ['POST'])
-def get_nouns_verbs(data_object):
-    """
-    Dymmy
-    data_object = {
-                    'filename':'../aigent.txt',
-                    'words':'Free listening exercises and activities for verbs listening tests from www.123 Listening.com   .  Many different audio downloads and many different worksheets that can be combined to be very simple for young learners or more difficult for older students.'
-                    }
-    """
+def get_nouns_verbs():
+    data_object = request.json
     fileName = data_object['file'] #'../aigent.txt' # data_object.file
     # File = open(fileName) #open file
     lines = data_object['words'] # File.read() #read all lines # data_object.words
@@ -50,12 +47,11 @@ def get_nouns_verbs(data_object):
                  nouns.append(word)
              elif pos in verb_tags:
                  verbs.append(word)
-    post_to_api('nouns', filename, nouns)
-    post_to_api('verbs', filename, verbs)
+    post_to_api('nouns', fileName, nouns)
+    post_to_api('verbs', fileName, verbs)
+    return 'OK'
 
-get_nouns_verbs('x')
 
-@app.route('/test_data',methods=['POST'] )
-def assess(arg):
-    pass
-
+# @app.route('/test_data',methods=['POST'] )
+# def assess():
+#     pass
