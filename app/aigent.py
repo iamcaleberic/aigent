@@ -20,7 +20,7 @@ print(text_blob.tags)
 
 # type options: nouns/verbs
 def post_to_api(data_type, recording_filename='', payload_array=[]):
-    endpoint_url =  API_URL + f"/assessments/nouns-and-verbs/{type}/{recording_filename}/team2"
+    endpoint_url =  API_URL + f"/assessments/nouns-and-verbs/{data_type}/{recording_filename}/team2"
     print(endpoint_url)
 
 
