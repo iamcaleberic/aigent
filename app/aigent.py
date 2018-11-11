@@ -1,30 +1,29 @@
-from flask import Flask
+from flask import Flask, request
+import requests
 import nltk
 from textblob import TextBlob
 
 API_URL = 'https://api.aigent.co'
+TEST_URL = 'http://localhost:5000'
 
 app = Flask(__name__)
 
+# root URL
 @app.route('/')
-def hello_world():
+def home():
     return 'Aigent Classifier!'
-
-with open('example.txt','r') as f_open:
-    data = f_open.read()
-
-f_open.close()
-text_blob = TextBlob(data)
-print(text_blob.tags)
-
 
 # type options: nouns/verbs
 def post_to_api(data_type, recording_filename='', payload_array=[]):
     endpoint_url =  API_URL + f"/assessments/nouns-and-verbs/{data_type}/{recording_filename}/team2"
     print(endpoint_url)
+    r = requests.post(TEST_URL, data={'payload': payload_array})
+    print(r.status_code, r.reason)
 
-
-post_to_api('nouns', 'test_recording.wav', ["table", "car"])
+# method for testing purposes
+@app.route('/test_data',methods=['POST'] )
+def assess():
+    print(request.data)
 
 
 # process nouns/verbs
@@ -57,3 +56,5 @@ def get_nouns_verbs(data_object):
 @app.route('/test_data',methods=['POST'] )
 def assess(arg):
     pass
+# post_to_api('nouns', 'test_recording.wav', ["table", "car"])
+
