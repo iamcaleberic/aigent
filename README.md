@@ -1,5 +1,5 @@
 # aigent
-Text to speech analyzer to extract nouns and verbs.
+Text analyzer to extract nouns and verbs using nltk. 
 
 # Requirements
   -  flask
