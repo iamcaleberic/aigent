@@ -8,5 +8,5 @@ Text to speech analyzer to extract nouns and verbs.
 
 # Running
 
-- pip install -r requirements.txt
-- FLASK_APP=aigent.py flask run
+- `pip install -r requirements.txt`
+- `FLASK_APP=aigent.py flask run`
